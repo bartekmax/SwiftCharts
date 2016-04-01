@@ -50,7 +50,7 @@ public class Chart {
 
     /// The view that the chart is drawn in
     public let view: ChartView
-    
+
     /// The layers of the chart that are drawn in the view
     private let layers: [ChartLayer]
 
@@ -75,7 +75,7 @@ public class Chart {
      - returns: The new Chart
      */
     public init(view: ChartView, layers: [ChartLayer]) {
-        
+
         self.layers = layers
         
         self.view = view
@@ -133,7 +133,7 @@ public class Chart {
 
 /// A UIView subclass for drawing charts
 public class ChartBaseView: ChartView {
-    
+
     override public func drawRect(rect: CGRect) {
         self.chart?.drawRect(rect)
     }
@@ -148,12 +148,12 @@ public class ChartView: UIView {
         super.init(frame: frame)
         self.sharedInit()
     }
-
+    
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.sharedInit()
     }
-
+    
     /**
      Initialization code shared between all initializers
      */

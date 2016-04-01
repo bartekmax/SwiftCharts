@@ -18,5 +18,13 @@ public class ChartContextDrawer {
         }
     }
     
+    final func triggerDisplay(chart chart: Chart) {
+        if !hidden {
+            self.display(chart: chart)
+        }
+    }
+    
     func draw(context context: CGContextRef, chart: Chart) {}
+    
+    func display(chart chart: Chart) {}
 }

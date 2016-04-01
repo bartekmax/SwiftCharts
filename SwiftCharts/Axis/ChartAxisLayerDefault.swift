@@ -148,32 +148,28 @@ class ChartAxisLayerDefault: ChartAxisLayer {
         self.settings = settings
     }
     
-    func chartInitialized(chart chart: Chart) {
-        self.initDrawers()
-    }
-
     /**
      Draws the axis' line, labels and axis title label
-
-     - parameter context: The context to draw the axis contents in
+     
      - parameter chart:   The chart that this axis belongs to
      */
-    func chartViewDrawing(context context: CGContextRef, chart: Chart) {
+    func chartInitialized(chart chart: Chart) {
+        self.initDrawers()
+        
         if self.settings.isAxisLineVisible {
-            if let lineDrawer = self.lineDrawer {
-                CGContextSetLineWidth(context, CGFloat(self.settings.axisStrokeWidth))
-                lineDrawer.triggerDraw(context: context, chart: chart)
-            }
+            let lineLayer = ChartLineLayerGenerator(point1: p1,
+                                                    point2: p2,
+                                                    lineWidth: self.settings.axisStrokeWidth,
+                                                    strokeColor: self.settings.lineColor).generate()
+            chart.view.layer.addSublayer(lineLayer)
         }
         
         for labelDrawer in self.labelDrawers {
-            labelDrawer.triggerDraw(context: context, chart: chart)
-        }
-        for axisTitleLabelDrawer in self.axisTitleLabelDrawers {
-            axisTitleLabelDrawer.triggerDraw(context: context, chart: chart)
+            labelDrawer.triggerDisplay(chart: chart)
         }
     }
-    
+
+    func chartViewDrawing(context context: CGContextRef, chart: Chart) {}
     
     func initDrawers() {
         fatalError("override")

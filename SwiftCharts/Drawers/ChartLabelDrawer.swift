@@ -72,27 +72,24 @@ public class ChartLabelDrawer: ChartContextDrawer {
         
         self.transform = self.transform(screenLoc, settings: settings)
     }
-
-    override func draw(context context: CGContextRef, chart: Chart) {
+    
+    override func display(chart chart: Chart) {
         let labelSize = self.size
         
         let labelX = self.screenLoc.x
         let labelY = self.screenLoc.y
         
-        func drawLabel() {
-            self.drawLabel(x: labelX, y: labelY, text: self.text)
-        }
+        let frame = CGRect(x: labelX, y: labelY, width: labelSize.width, height: labelSize.height)
         
-        if let transform = self.transform {
-            CGContextSaveGState(context)
-            CGContextConcatCTM(context, transform)
-            drawLabel()
-            CGContextRestoreGState(context)
-
-        } else {
-            drawLabel()
-        }
+        let textLayer = ChartTextLayerGenerator(layerFrame: frame,
+                                            text: text,
+                                            font: settings.font,
+                                            alignmentMode: kCAAlignmentCenter,
+                                            foregroundColor: settings.fontColor).generate()
+        chart.view.layer.addSublayer(textLayer)
     }
+
+    override func draw(context context: CGContextRef, chart: Chart) {}
     
     private func transform(screenLoc: CGPoint, settings: ChartLabelSettings) -> CGAffineTransform? {
         let labelSize = self.size
