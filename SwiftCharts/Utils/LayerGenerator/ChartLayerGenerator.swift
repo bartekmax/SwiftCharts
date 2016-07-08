@@ -63,7 +63,7 @@ struct ChartTextLayerGenerator: ChartLayerGenerator {
     func generate() -> CALayer {
         let textLayer = CATextLayer()
         textLayer.frame = frame
-        textLayer.string = text
+        textLayer.string = NSAttributedString(string: text, attributes: [NSFontAttributeName: font])
         textLayer.foregroundColor = foregroundColor.CGColor
         textLayer.font = font.fontName
         textLayer.fontSize = font.pointSize
