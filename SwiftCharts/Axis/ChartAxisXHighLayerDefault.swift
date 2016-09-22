@@ -59,6 +59,9 @@ class ChartAxisXHighLayerDefault: ChartAxisXLayerDefault {
     override func initDrawers() {
         self.axisTitleLabelDrawers = self.generateAxisTitleLabelsDrawers(offset: 0)
         self.labelDrawers = self.generateLabelDrawers(offset: self.labelsOffset)
-        self.lineDrawer = self.generateLineDrawer(offset: self.lineOffset)
+    }
+    
+    override func initLayers() {
+        self.lineLayer = self.generateLineLayer(offset: self.lineOffset)
     }
 }

@@ -59,16 +59,21 @@ class ChartAxisYLowLayerDefault: ChartAxisYLayerDefault {
     override func initDrawers() {
         self.axisTitleLabelDrawers = self.generateAxisTitleLabelsDrawers(offset: 0)
         self.labelDrawers = self.generateLabelDrawers(offset: self.labelsOffset)
-        self.lineDrawer = self.generateLineDrawer(offset: self.lineOffset)
     }
     
-    override func generateLineDrawer(offset: CGFloat) -> ChartLineDrawer {
+    override func initLayers() {
+        self.lineLayer = self.generateLineLayer(offset: self.lineOffset)
+    }
+    
+    override func generateLineLayer(offset: CGFloat) -> CALayer {
         let halfStrokeWidth = self.settings.axisStrokeWidth / 2 // we want that the stroke ends at the end of the frame, not be in the middle of it
         let p1 = CGPoint(x: self.p1.x + offset - halfStrokeWidth, y: self.p1.y)
         let p2 = CGPoint(x: self.p2.x + offset - halfStrokeWidth, y: self.p2.y)
-        return ChartLineDrawer(p1: p1, p2: p2, color: self.settings.lineColor, strokeWidth: self.settings.axisStrokeWidth)
+        let lineWidth = self.settings.axisStrokeWidth
+        let strokeColor = self.settings.lineColor
+        return ChartLineLayerGenerator(point1: p1, point2: p2, lineWidth: lineWidth, strokeColor: strokeColor).generate()
     }
-
+    
     override func labelsX(offset: CGFloat, labelWidth: CGFloat, textAlignment: ChartLabelTextAlignment) -> CGFloat {
         let labelsXRight = self.p1.x + offset
         var labelsX: CGFloat

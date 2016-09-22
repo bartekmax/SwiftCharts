@@ -24,21 +24,24 @@ class ChartAxisYHighLayerDefault: ChartAxisYLayerDefault {
     }
     
     override func initDrawers() {
-        
-        self.lineDrawer = self.generateLineDrawer(offset: 0)
-        
         let labelsOffset = self.settings.labelsToAxisSpacingY + self.settings.axisStrokeWidth
         self.labelDrawers = self.generateLabelDrawers(offset: labelsOffset)
         let axisTitleLabelsOffset = labelsOffset + self.labelsMaxWidth + self.settings.axisTitleLabelsToLabelsSpacing
         self.axisTitleLabelDrawers = self.generateAxisTitleLabelsDrawers(offset: axisTitleLabelsOffset)
     }
     
-    override func generateLineDrawer(offset: CGFloat) -> ChartLineDrawer {
+    override func initLayers() {
+        self.lineLayer = self.generateLineLayer(offset: 0)
+    }
+    
+    override func generateLineLayer(offset: CGFloat) -> CALayer {
         let halfStrokeWidth = self.settings.axisStrokeWidth / 2 // we want that the stroke begins at the beginning of the frame, not in the middle of it
         let x = self.p1.x + offset + halfStrokeWidth
         let p1 = CGPoint(x: x, y: self.p1.y)
         let p2 = CGPoint(x: x, y: self.p2.y)
-        return ChartLineDrawer(p1: p1, p2: p2, color: self.settings.lineColor, strokeWidth: self.settings.axisStrokeWidth)
+        let lineWidth = self.settings.axisStrokeWidth
+        let strokeColor = self.settings.lineColor
+        return ChartLineLayerGenerator(point1: p1, point2: p2, lineWidth: lineWidth, strokeColor: strokeColor).generate()
     }
     
     override func labelsX(offset: CGFloat, labelWidth: CGFloat, textAlignment: ChartLabelTextAlignment) -> CGFloat {

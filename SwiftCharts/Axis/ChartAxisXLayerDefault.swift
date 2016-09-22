@@ -37,10 +37,12 @@ class ChartAxisXLayerDefault: ChartAxisLayerDefault {
         super.chartViewDrawing(context: context, chart: chart)
     }
     
-    override func generateLineDrawer(offset: CGFloat) -> ChartLineDrawer {
+    override func generateLineLayer(offset: CGFloat) -> CALayer {
         let p1 = CGPoint(x: self.p1.x, y: self.p1.y + offset)
         let p2 = CGPoint(x: self.p2.x, y: self.p2.y + offset)
-        return ChartLineDrawer(p1: p1, p2: p2, color: self.settings.lineColor, strokeWidth: self.settings.axisStrokeWidth)
+        let lineWidth = self.settings.axisStrokeWidth
+        let strokeColor = self.settings.lineColor
+        return ChartLineLayerGenerator(point1: p1, point2: p2, lineWidth: lineWidth, strokeColor: strokeColor).generate()
     }
     
     override func generateAxisTitleLabelsDrawers(offset: CGFloat) -> [ChartLabelDrawer] {

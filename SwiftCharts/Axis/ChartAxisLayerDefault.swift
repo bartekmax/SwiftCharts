@@ -68,7 +68,7 @@ class ChartAxisLayerDefault: ChartAxisLayer {
     let settings: ChartAxisSettings
     
     // exposed for subclasses
-    var lineDrawer: ChartLineDrawer?
+    var lineLayer: CALayer?
     var labelDrawers: [ChartLabelDrawer] = []
     var axisTitleLabelDrawers: [ChartLabelDrawer] = []
     
@@ -151,6 +151,13 @@ class ChartAxisLayerDefault: ChartAxisLayer {
     
     func chartInitialized(chart: Chart) {
         self.initDrawers()
+        self.initLayers()
+        
+        if self.settings.isAxisLineVisible {
+            if let lineLayer = self.lineLayer {
+                chart.view.layer.addSublayer(lineLayer)
+            }
+        }
     }
 
     /**
@@ -160,12 +167,6 @@ class ChartAxisLayerDefault: ChartAxisLayer {
      - parameter chart:   The chart that this axis belongs to
      */
     func chartViewDrawing(context: CGContext, chart: Chart) {
-        if self.settings.isAxisLineVisible {
-            if let lineDrawer = self.lineDrawer {
-                context.setLineWidth(CGFloat(self.settings.axisStrokeWidth))
-                lineDrawer.triggerDraw(context: context, chart: chart)
-            }
-        }
         
         for labelDrawer in self.labelDrawers {
             labelDrawer.triggerDraw(context: context, chart: chart)
@@ -175,6 +176,13 @@ class ChartAxisLayerDefault: ChartAxisLayer {
         }
     }
     
+    func initLayers() {
+        fatalError("override")
+    }
+    
+    func generateLineLayer(offset: CGFloat) -> CALayer {
+        fatalError("override")
+    }
     
     func initDrawers() {
         fatalError("override")

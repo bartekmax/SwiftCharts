@@ -28,11 +28,14 @@ class ChartAxisXLowLayerDefault: ChartAxisXLayerDefault {
     }
     
     override func initDrawers() {
-        self.lineDrawer = self.generateLineDrawer(offset: 0)
         let labelsOffset = (self.settings.axisStrokeWidth / 2) + self.settings.labelsToAxisSpacingX
         let labelDrawers = self.generateLabelDrawers(offset: labelsOffset)
         let definitionLabelsOffset = labelsOffset + self.labelsTotalHeight + self.settings.axisTitleLabelsToLabelsSpacing
         self.axisTitleLabelDrawers = self.generateAxisTitleLabelsDrawers(offset: definitionLabelsOffset)
         self.labelDrawers = labelDrawers
+    }
+    
+    override func initLayers() {
+        self.lineLayer = self.generateLineLayer(offset: 0)
     }
 }
