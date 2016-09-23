@@ -90,15 +90,17 @@ class ChartAxisXLayerDefault: ChartAxisLayerDefault {
         return self.rowHeightsForRows(rows)
     }
     
-    override func generateLabelDrawers(offset: CGFloat) -> [ChartLabelDrawer] {
-        
+    func generateLabelLayers(offset: CGFloat) -> [CALayer] {
         let spacingLabelBetweenAxis = self.settings.labelsSpacing
         
         let rowHeights = self.rowHeights
         
-        // generate all the label drawers, in a flat list
+        // generate all the label layers, in a flat list
         return self.axisValues.flatMap {axisValue in
-            return Array(axisValue.labels.enumerated()).map {index, label in
+            return Array(axisValue.labels.enumerated()).flatMap {index, label in
+                guard label.hidden != true else {
+                    return nil
+                }
                 let rowY = self.calculateRowY(rowHeights: rowHeights, rowIndex: index, spacing: spacingLabelBetweenAxis)
                 
                 let x = self.screenLocForScalar(axisValue.scalar)
@@ -106,10 +108,10 @@ class ChartAxisXLayerDefault: ChartAxisLayerDefault {
                 
                 let labelSize = ChartUtils.textSize(label.text, font: label.settings.font)
                 let labelX = x - (labelSize.width / 2)
+                let labelFrame = CGRect(origin: CGPoint(x: labelX, y: y), size: labelSize)
                 
-                let labelDrawer = ChartLabelDrawer(text: label.text, screenLoc: CGPoint(x: labelX, y: y), settings: label.settings)
-                labelDrawer.hidden = label.hidden
-                return labelDrawer
+                let labelLayer = ChartLabelLayerGenerator(layerFrame: labelFrame, text: label.text, font: label.settings.font, alignmentMode: label.settings.textAlignment.alignmentMode, foregroundColor: label.settings.fontColor).generate()
+                return labelLayer
             }
         }
     }

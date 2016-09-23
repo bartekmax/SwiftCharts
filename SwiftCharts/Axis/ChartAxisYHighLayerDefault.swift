@@ -25,13 +25,14 @@ class ChartAxisYHighLayerDefault: ChartAxisYLayerDefault {
     
     override func initDrawers() {
         let labelsOffset = self.settings.labelsToAxisSpacingY + self.settings.axisStrokeWidth
-        self.labelDrawers = self.generateLabelDrawers(offset: labelsOffset)
         let axisTitleLabelsOffset = labelsOffset + self.labelsMaxWidth + self.settings.axisTitleLabelsToLabelsSpacing
         self.axisTitleLabelDrawers = self.generateAxisTitleLabelsDrawers(offset: axisTitleLabelsOffset)
     }
     
     override func initLayers() {
         self.lineLayer = self.generateLineLayer(offset: 0)
+        let labelsOffset = self.settings.labelsToAxisSpacingY + self.settings.axisStrokeWidth
+        self.labelLayers = self.generateLabelLayers(offset: labelsOffset)
     }
     
     override func generateLineLayer(offset: CGFloat) -> CALayer {
@@ -51,6 +52,8 @@ class ChartAxisYHighLayerDefault: ChartAxisYLayerDefault {
             labelsX = self.p1.x + offset
         case .right:
             labelsX = self.p1.x + offset + self.labelsMaxWidth - labelWidth
+        case .center:
+            labelsX = self.p1.x + offset + self.labelsMaxWidth - labelWidth / 2
         }
         return labelsX
     }

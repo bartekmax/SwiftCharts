@@ -116,6 +116,8 @@
 		0C938A011D93F76900A6927A /* ChartLayerGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9389FF1D93F76900A6927A /* ChartLayerGenerator.swift */; };
 		0C938A031D93F7AD00A6927A /* ChartLineLayerGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C938A021D93F7AD00A6927A /* ChartLineLayerGenerator.swift */; };
 		0C938A041D93F7AD00A6927A /* ChartLineLayerGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C938A021D93F7AD00A6927A /* ChartLineLayerGenerator.swift */; };
+		0CA596CD1D94808600D20FDB /* ChartLabelLayerGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA596CC1D94808600D20FDB /* ChartLabelLayerGenerator.swift */; };
+		0CA596CE1D94808600D20FDB /* ChartLabelLayerGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA596CC1D94808600D20FDB /* ChartLabelLayerGenerator.swift */; };
 		22DB00001BF5BF3900070F15 /* ChartAxisValueDoubleScreenLoc.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4CE97E1B93B2C1005E4264 /* ChartAxisValueDoubleScreenLoc.swift */; };
 		22DB00011BF5BF3900070F15 /* ChartAxisValueInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06405DD31B8AA81D00A689FF /* ChartAxisValueInt.swift */; };
 		22DB00021BF5BF3900070F15 /* ChartAxisValueString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06405DD41B8AA81D00A689FF /* ChartAxisValueString.swift */; };
@@ -327,6 +329,7 @@
 		067510C01B8AB36500A37F64 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
 		0C9389FF1D93F76900A6927A /* ChartLayerGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartLayerGenerator.swift; sourceTree = "<group>"; };
 		0C938A021D93F7AD00A6927A /* ChartLineLayerGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartLineLayerGenerator.swift; sourceTree = "<group>"; };
+		0CA596CC1D94808600D20FDB /* ChartLabelLayerGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartLabelLayerGenerator.swift; sourceTree = "<group>"; };
 		22E7020F1BF5B8EC00C19675 /* SwiftCharts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftCharts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		43649A681C7AC7E300523D7F /* ChartPointsTouchHighlightLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartPointsTouchHighlightLayer.swift; sourceTree = "<group>"; };
 		437C78511D1EF923003C19C3 /* MultiTrackerExample.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiTrackerExample.swift; sourceTree = "<group>"; };
@@ -622,6 +625,7 @@
 			children = (
 				0C9389FF1D93F76900A6927A /* ChartLayerGenerator.swift */,
 				0C938A021D93F7AD00A6927A /* ChartLineLayerGenerator.swift */,
+				0CA596CC1D94808600D20FDB /* ChartLabelLayerGenerator.swift */,
 			);
 			path = LayerGenerators;
 			sourceTree = "<group>";
@@ -879,6 +883,7 @@
 				06405E1F1B8AA81D00A689FF /* Chart.swift in Sources */,
 				06405E4E1B8AA81D00A689FF /* HandlingView.swift in Sources */,
 				06405E361B8AA81D00A689FF /* ChartPointsAreaLayer.swift in Sources */,
+				0CA596CD1D94808600D20FDB /* ChartLabelLayerGenerator.swift in Sources */,
 				06405E471B8AA81D00A689FF /* ChartPointTargetingView.swift in Sources */,
 				06405E2C1B8AA81D00A689FF /* ChartLabelDrawer.swift in Sources */,
 				0C938A031D93F7AD00A6927A /* ChartLineLayerGenerator.swift in Sources */,
@@ -961,6 +966,7 @@
 				22DB00251BF5BF3900070F15 /* ChartPointEllipseView.swift in Sources */,
 				22DB00261BF5BF3900070F15 /* ChartPointTargetingView.swift in Sources */,
 				22DB00271BF5BF3900070F15 /* ChartPointTextCircleView.swift in Sources */,
+				0CA596CE1D94808600D20FDB /* ChartLabelLayerGenerator.swift in Sources */,
 				22DB00281BF5BF3900070F15 /* ChartPointViewBar.swift in Sources */,
 				22DB00291BF5BF3900070F15 /* ChartPointViewBarGreyOut.swift in Sources */,
 				22DB002A1BF5BF3900070F15 /* ChartPointViewBarStacked.swift in Sources */,

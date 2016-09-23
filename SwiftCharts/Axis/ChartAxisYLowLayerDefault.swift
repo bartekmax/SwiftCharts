@@ -58,11 +58,11 @@ class ChartAxisYLowLayerDefault: ChartAxisYLayerDefault {
     
     override func initDrawers() {
         self.axisTitleLabelDrawers = self.generateAxisTitleLabelsDrawers(offset: 0)
-        self.labelDrawers = self.generateLabelDrawers(offset: self.labelsOffset)
     }
     
     override func initLayers() {
         self.lineLayer = self.generateLineLayer(offset: self.lineOffset)
+        self.labelLayers = self.generateLabelLayers(offset: self.labelsOffset)
     }
     
     override func generateLineLayer(offset: CGFloat) -> CALayer {
@@ -82,6 +82,8 @@ class ChartAxisYLowLayerDefault: ChartAxisYLayerDefault {
             labelsX = labelsXRight + self.labelsMaxWidth - labelWidth
         case .left:
             labelsX = labelsXRight
+        case .center:
+            labelsX = labelsXRight + self.labelsMaxWidth - labelWidth / 2
         }
         return labelsX
     }

@@ -18,11 +18,11 @@ class ChartAxisYLayerDefault: ChartAxisLayerDefault {
     var labelsMaxWidth: CGFloat {
         if let labelsWidthY = settings.labelsWidthY {
             return labelsWidthY
-        } else if self.labelDrawers.isEmpty {
+        } else if self.labelLayers.isEmpty {
             return self.maxLabelWidth(self.axisValues)
         } else {
-            return self.labelDrawers.reduce(0) {maxWidth, labelDrawer in
-                max(maxWidth, labelDrawer.size.width)
+            return self.labelLayers.reduce(0) {maxWidth, labelLayer in
+                max(maxWidth, labelLayer.bounds.size.width)
             }
         }
     }
@@ -63,39 +63,34 @@ class ChartAxisYLayerDefault: ChartAxisLayerDefault {
     }
     
     
-    override func generateLabelDrawers(offset: CGFloat) -> [ChartLabelDrawer] {
+    func generateLabelLayers(offset: CGFloat) -> [CALayer] {
 
-        var drawers: [ChartLabelDrawer] = []
+        var layers: [CALayer] = []
+        var lastLayer: CALayer?
         
-        var lastDrawerWithRect: (drawer: ChartLabelDrawer, rect: CGRect)?
-        
-        for i in 0..<axisValues.count {
-            let axisValue = axisValues[i]
+        axisValues.forEach { axisValue in
+            guard let axisLabel = axisValue.labels.first, !axisValue.hidden else {
+                return
+            }
             let scalar = axisValue.scalar
             let y = self.screenLocForScalar(scalar)
-            if let axisLabel = axisValue.labels.first { // for now y axis supports only one label x value
-                let labelSize = ChartUtils.textSize(axisLabel.text, font: axisLabel.settings.font)
-                let labelY = y - (labelSize.height / 2)
-                let labelX = self.labelsX(offset: offset, labelWidth: labelSize.width, textAlignment: axisLabel.settings.textAlignment)
-                let labelDrawer = ChartLabelDrawer(text: axisLabel.text, screenLoc: CGPoint(x: labelX, y: labelY), settings: axisLabel.settings)
-                labelDrawer.hidden = axisValue.hidden
-
-                let rect = CGRect(x: labelX, y: labelY, width: labelSize.width, height: labelSize.height)
-                drawers.append(labelDrawer)
-                
-                // move overlapping labels. This is for now a very simple algorithm and doesn't take into account possible overlappings resulting of moving the labels
-                if let (lastDrawer, lastRect) = lastDrawerWithRect {
-                    let intersection = rect.intersection(lastRect)
-                    if intersection != CGRect.null {
-                        labelDrawer.screenLoc = CGPoint(x: labelDrawer.screenLoc.x, y: labelDrawer.screenLoc.y - intersection.height / 2)
-                        lastDrawer.screenLoc = CGPoint(x: lastDrawer.screenLoc.x, y: lastDrawer.screenLoc.y + intersection.height / 2)
-                    }
+            let labelSize = ChartUtils.textSize(axisLabel.text, font: axisLabel.settings.font)
+            let labelY = y - (labelSize.height / 2)
+            let labelX = self.labelsX(offset: offset, labelWidth: labelSize.width, textAlignment: axisLabel.settings.textAlignment)
+            let frame = CGRect(x: labelX, y: labelY, width: labelSize.width, height: labelSize.height)
+            let labelLayer = ChartLabelLayerGenerator(layerFrame: frame, text: axisLabel.text, font: axisLabel.settings.font, alignmentMode: axisLabel.settings.textAlignment.alignmentMode, foregroundColor: axisLabel.settings.fontColor).generate()
+            layers.append(labelLayer)
+            
+            if let lastLayer = lastLayer {
+                let intersection = frame.intersection(lastLayer.frame)
+                if intersection != CGRect.null {
+                    labelLayer.frame.origin = CGPoint(x: labelLayer.frame.origin.x, y: labelLayer.frame.origin.y - intersection.height / 2)
+                    lastLayer.frame.origin = CGPoint(x: lastLayer.frame.origin.x, y: lastLayer.frame.origin.y + intersection.height / 2)
                 }
-                
-                lastDrawerWithRect = (labelDrawer, rect)
             }
+            lastLayer = labelLayer
         }
-        return drawers
+        return layers
     }
     
     func labelsX(offset: CGFloat, labelWidth: CGFloat, textAlignment: ChartLabelTextAlignment) -> CGFloat {

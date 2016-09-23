@@ -9,7 +9,18 @@
 import UIKit
 
 public enum ChartLabelTextAlignment {
-    case left, right, `default`
+    case left, center, right, `default`
+    
+    var alignmentMode: String {
+        switch self {
+        case .left, .default:
+            return kCAAlignmentLeft
+        case .right:
+            return kCAAlignmentRight
+        case .center:
+            return kCAAlignmentCenter
+        }
+    }
 }
 
 open class ChartLabelSettings {

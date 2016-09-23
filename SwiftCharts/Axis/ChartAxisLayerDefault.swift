@@ -69,7 +69,8 @@ class ChartAxisLayerDefault: ChartAxisLayer {
     
     // exposed for subclasses
     var lineLayer: CALayer?
-    var labelDrawers: [ChartLabelDrawer] = []
+    var labelLayers: [CALayer] = []
+    
     var axisTitleLabelDrawers: [ChartLabelDrawer] = []
     
     var rect: CGRect {
@@ -158,6 +159,10 @@ class ChartAxisLayerDefault: ChartAxisLayer {
                 chart.view.layer.addSublayer(lineLayer)
             }
         }
+        
+        for labelLayer in labelLayers {
+            chart.view.layer.addSublayer(labelLayer)
+        }
     }
 
     /**
@@ -167,10 +172,6 @@ class ChartAxisLayerDefault: ChartAxisLayer {
      - parameter chart:   The chart that this axis belongs to
      */
     func chartViewDrawing(context: CGContext, chart: Chart) {
-        
-        for labelDrawer in self.labelDrawers {
-            labelDrawer.triggerDraw(context: context, chart: chart)
-        }
         for axisTitleLabelDrawer in self.axisTitleLabelDrawers {
             axisTitleLabelDrawer.triggerDraw(context: context, chart: chart)
         }
