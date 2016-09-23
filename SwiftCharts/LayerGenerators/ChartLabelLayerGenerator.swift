@@ -26,7 +26,7 @@ struct ChartLabelLayerGenerator: ChartLayerGenerator {
     func generate() -> CALayer {
         let textLayer = CATextLayer()
         textLayer.frame = frame
-        textLayer.string = text
+        textLayer.string = NSAttributedString(string: text, attributes: [NSFontAttributeName: font])
         textLayer.foregroundColor = foregroundColor.cgColor
         textLayer.font = font.fontName as CFTypeRef?
         textLayer.fontSize = font.pointSize
