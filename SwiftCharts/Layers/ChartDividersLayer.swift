@@ -56,7 +56,7 @@ open class ChartDividersLayer: ChartCoordsSpaceLayer {
         ChartDrawLine(context: context, p1: p1, p2: p2, width: width, color: color)
     }
     
-    override open func chartViewDrawing(context: CGContext, chart: Chart) {
+    override open func chartInitialized(chart: Chart) {
         let xScreenLocs = self.xScreenLocs
         let yScreenLocs = self.yScreenLocs
         
@@ -66,7 +66,11 @@ open class ChartDividersLayer: ChartCoordsSpaceLayer {
                 let y1 = self.xAxis.lineP1.y + (self.xAxis.low ? -self.settings.end : self.settings.end)
                 let x2 = xScreenLoc
                 let y2 = self.xAxis.lineP1.y + (self.xAxis.low ? self.settings.start : -self.settings.start)
-                self.drawLine(context: context, color: self.settings.linesColor, width: self.settings.linesWidth, p1: CGPoint(x: x1, y: y1), p2: CGPoint(x: x2, y: y2))
+                let lineLayer = ChartLineLayerGenerator(point1: CGPoint(x: x1, y: y1),
+                                                        point2: CGPoint(x: x2, y: y2),
+                                                        lineWidth: self.settings.linesWidth,
+                                                        strokeColor: self.settings.linesColor).generate()
+                chart.view.layer.addSublayer(lineLayer)
             }
         }
         
@@ -76,7 +80,11 @@ open class ChartDividersLayer: ChartCoordsSpaceLayer {
                 let y1 = yScreenLoc
                 let x2 = self.yAxis.lineP1.x + (self.yAxis.low ? self.settings.end : self.settings.end)
                 let y2 = yScreenLoc
-                self.drawLine(context: context, color: self.settings.linesColor, width: self.settings.linesWidth, p1: CGPoint(x: x1, y: y1), p2: CGPoint(x: x2, y: y2))
+                let lineLayer = ChartLineLayerGenerator(point1: CGPoint(x: x1, y: y1),
+                                                        point2: CGPoint(x: x2, y: y2),
+                                                        lineWidth: self.settings.linesWidth,
+                                                        strokeColor: self.settings.linesColor).generate()
+                chart.view.layer.addSublayer(lineLayer)
             }
         }
     }
